@@ -1,26 +1,74 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;900&display=swap");
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-* {
-  box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display leading-none font-semibold leading-none;
   }
+
+  h1 {
+    @apply text-5xl md:text-6xl;
+  }
+
+  h2 {
+    @apply text-4xl md:text-5xl;
+  }
+
+  h3 {
+    @apply text-3xl md:text-4xl font-bold;
+  }
+
+  h4 {
+    @apply text-2xl md:text-3xl font-semibold;
+  }
+
+  h5 {
+    @apply text-lg md:text-xl font-semibold;
+  }
+
+  h6 {
+    @apply text-base xl:text-lg font-bold;
+  }
+
   body {
-    color: white;
-    background: black;
+    @apply text-base font-body leading-none;
   }
+
+  button {
+    @apply py-2 px-4 rounded text-white font-semibold shadow-md hover:shadow-lg disabled:bg-gray-300 disabled:shadow-none;
+  }
+
+  * {
+    @apply transition-all;
+  }
+  /* 
+  [type="text"]:focus,
+  [type="email"]:focus,
+  [type="url"]:focus,
+  [type="password"]:focus,
+  [type="number"]:focus,
+  [type="date"]:focus,
+  [type="datetime-local"]:focus,
+  [type="month"]:focus,
+  [type="search"]:focus,
+  [type="tel"]:focus,
+  [type="checkbox"]:focus,
+  [type="radio"]:focus,
+  [type="time"]:focus,
+  [type="week"]:focus,
+  [type="file"]:focus,
+  [multiple]:focus,
+  textarea:focus,
+  select:focus {
+    --tw-ring-color: var(--primary-color);
+    border-color: var(--primary-color);
+  } */
 }
