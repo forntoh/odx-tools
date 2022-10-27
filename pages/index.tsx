@@ -1,106 +1,23 @@
-import { XCircleIcon } from "@heroicons/react/24/solid";
-import { saveAs } from "file-saver";
-import type { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { useFileLoader } from "../lib/helpers.file";
-import { useODXMerger } from "../lib/odx-merger";
+import Link from "next/link";
 
-const Home: NextPage = () => {
-  const [files, loadFile, removeFile] = useFileLoader();
-  const [longName, setLongName] = useState("Steering_Assist_BAS_GEN2_MQB41");
-
-  const [result, fileName, mergeFile, clearResult] = useODXMerger();
-
-  useEffect(() => {
-    clearResult();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [files]);
-
-  const downloadMergeResult = () => {
-    var blob = new Blob([result], {
-      type: "application/ODX;charset=utf-8",
-    });
-    saveAs(blob, fileName + ".odx");
-  };
-
+export default function Home() {
   return (
-    <div className="container flex flex-col gap-6 py-8">
-      <h2>ODX EV Merger</h2>
-      <div>
-        <label
-          className="block mb-2 text-sm font-medium text-gray-900"
-          htmlFor="file_input"
-        >
-          Upload file
-        </label>
-        <input
-          className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer file:bg-gray-300 file:border-none file:py-1 file:px-4 file:mr-4 focus:ring-transparent"
-          id="file_input"
-          type="file"
-          accept=".odx"
-          onChange={loadFile}
-        />
-      </div>
-
-      <div>
-        <label
-          className="block mb-2 text-sm font-medium text-gray-900"
-          htmlFor="LONG-NAME"
-        >
-          Long name
-        </label>
-        <input
-          id="LONG-NAME"
-          type="text"
-          name="LONG-NAME"
-          className="bg-gray-50 rounded-lg border border-gray-300 text-sm py-1 w-full"
-          placeholder="LONG-NAME"
-          defaultValue={longName}
-          onChange={(e) => {
-            setLongName(e.target.value);
-          }}
-        />
-      </div>
-
-      <div className="rounded px-4 py-5 border flex flex-col gap-2">
-        {Array.from(files.keys()).map((key, i) => (
-          <div
-            className="rounded border-2 border-sky-200 font-semibold px-4 py-1 bg-sky-50 flex justify-between"
-            key={key}
-          >
-            {key}
-            <XCircleIcon
-              className="w-6 h-6 text-red-500 inline-block cursor-pointer"
-              onClick={() => removeFile(key)}
-            />
-          </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-2 gap-12">
-        <button
-          className="bg-sky-500 shadow-sky-800/20"
-          onClick={() => {
-            mergeFile(files, longName);
-          }}
-          disabled={
-            files.size <= 1 ||
-            result.trim().length > 0 ||
-            longName.trim().length <= 3
-          }
-        >
-          Merge
-        </button>
-        <button
-          disabled={result.trim().length <= 0}
-          onClick={downloadMergeResult}
-          className="bg-emerald-500 shadow-emerald-800/20"
-        >
-          Download
-        </button>
-      </div>
+    <div className="container pt-8 space-y-4">
+      <h2>ODX Tools</h2>
+      <p>This repo includes tools for manipulating ODX vehicle data</p>
+      <ul className="list-inside list-disc space-y-3">
+        <li className="space-y-2">
+          <h5 className="font-semibold inline-block">
+            <Link href="/odx-merger">ODX Merger</Link>
+          </h5>
+          <p className="pl-6">
+            This tool merges multiple EV ODX to one EV, a comon use case is when
+            the tool you use to generate odx data errors and ouptuts the result
+            into multiple `.odx` files, you can use this tool to merge them
+            together.
+          </p>
+        </li>
+      </ul>
     </div>
   );
-};
-
-export default Home;
+}
