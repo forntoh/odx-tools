@@ -1,8 +1,12 @@
+import Head from "next/head";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="container pt-8 space-y-4">
+      <Head>
+        <title>ODX Tools</title>
+      </Head>
       <h2>ODX Tools</h2>
       <p>This repo includes tools for manipulating ODX vehicle data</p>
       <ul className="list-inside list-disc space-y-3">

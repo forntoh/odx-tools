@@ -1,6 +1,7 @@
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import { saveAs } from "file-saver";
 import type { NextPage } from "next";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useFileLoader } from "../lib/helpers.file";
 import { useODXMerger } from "../lib/odx-merger";
@@ -25,6 +26,9 @@ const Home: NextPage = () => {
 
   return (
     <div className="container flex flex-col gap-6 py-8">
+      <Head>
+        <title>ODX EV Merger</title>
+      </Head>
       <h2>ODX EV Merger</h2>
       <div>
         <label
