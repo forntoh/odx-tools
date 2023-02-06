@@ -1,5 +1,6 @@
 import { Element, ElementCompact } from "xml-js";
 
+// Build a short name following the ODX standard
 const buildShortName = (longName: string, revision?: string) => {
   let name = "EV_";
 
@@ -41,7 +42,12 @@ const readElementText = (
   }
   return result;
 };
-
+/**
+ * Replave the value of at attribute in an odx block
+ * @param elements The data
+ * @param attribute Location to the attribute to replace in the tree e.g ODX.DIAG-LAYER-CONTAINER.ID
+ * @param value The new value
+ */
 const replaceElementAttribute = (
   elements: (Element | ElementCompact)[],
   attribute: string,
@@ -66,7 +72,12 @@ const replaceElementAttribute = (
     }
   }
 };
-
+/**
+ * Replace the text value of a block/element
+ * @param elements Data
+ * @param tagName Location of the element/item to replace e.g. ODX.DIAG-LAYER-CONTAINER.SHORT-NAME
+ * @param value The new value
+ */
 const replaceElementText = (
   elements: (Element | ElementCompact)[],
   tagName: string,
@@ -91,7 +102,12 @@ const replaceElementText = (
     }
   }
 };
-
+/**
+ * Merge the children of a block in place
+ * @param elements The data to merge
+ * @param tagName Target tag name
+ * @param attribute Attribute to merge by
+ */
 const mergeChildren = (
   elements: Element[],
   tagName: string,
@@ -184,7 +200,14 @@ const mergeChildren = (
     }
   }
 };
-
+/**
+ * Merge data from two blocks in place.
+ * The result is always placed in the second item.
+ *
+ * @param param The block to merge
+ * @param first First item
+ * @param second Second item
+ */
 const mergeAttribute = (param: string, first: Element, second: Element) => {
   if (first == undefined || second == undefined) return;
 
@@ -202,11 +225,17 @@ const mergeAttribute = (param: string, first: Element, second: Element) => {
     }
   }
 };
-
+/**
+ * Restructure the merge result to follow the ODX standard
+ * @param data The data to restructure (array of odx files conveted to js objects)
+ * @returns the index of largest merged file (it will contain data from all the files)
+ */
 const restructureECUVariant = (data: (Element | ElementCompact)[]) => {
   let longestItem;
   let longestItemRootIndex = 0;
-
+  //
+  // Search for the result with the most data
+  //
   data.forEach((it, i) => {
     const sub = it.elements?.[0]?.elements?.[0].elements?.[2].elements?.[0]
       .elements?.[5].elements as Element[];
@@ -216,7 +245,9 @@ const restructureECUVariant = (data: (Element | ElementCompact)[]) => {
       longestItemRootIndex = i;
     }
   });
-
+  //
+  // Restructure content of the result with the most data
+  //
   const sub = data[longestItemRootIndex]?.elements?.[0]?.elements?.[0]
     ?.elements?.[2]?.elements?.[0]?.elements?.[5] as Element;
 
@@ -268,14 +299,18 @@ const restructureECUVariant = (data: (Element | ElementCompact)[]) => {
         break;
     }
   }
-
+  //
+  // Remove all empty items
+  //
   looker = looker.filter((e) => e !== undefined);
-
+  //
+  // Replace the previous value with the restructured one
+  //
   data[
     longestItemRootIndex
   ].elements![0]!.elements![0]!.elements![2]!.elements![0]!.elements![5].elements =
     looker;
-
+  //
   return longestItemRootIndex;
 };
 
