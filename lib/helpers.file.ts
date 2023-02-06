@@ -1,5 +1,9 @@
 import { ChangeEvent, useState } from "react";
-
+/**
+ * File loader useHook
+ * Loads ODX file content into a map
+ * @returns a stateful map (key is file name and value is file content) and functions to load a file and remove a loaded file
+ */
 export function useFileLoader(): [
   Map<string, string>,
   (e: ChangeEvent<HTMLInputElement>) => void,
@@ -7,7 +11,7 @@ export function useFileLoader(): [
 ] {
   const [files, setFiles] = useState<Map<string, string>>(new Map());
 
-  const showFile = (e: ChangeEvent<HTMLInputElement>) => {
+  const loadFile = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     const reader = new FileReader();
@@ -34,5 +38,5 @@ export function useFileLoader(): [
     setFiles(new Map(files));
   };
 
-  return [files, showFile, removeFile];
+  return [files, loadFile, removeFile];
 }
