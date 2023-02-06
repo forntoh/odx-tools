@@ -13,6 +13,7 @@ const Home: NextPage = () => {
   const [result, fileName, mergeFile, clearResult] = useODXMerger();
 
   useEffect(() => {
+    // Clear a previously generated result if files change (added or removed)
     clearResult();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
